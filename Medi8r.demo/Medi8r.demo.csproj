@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Medi8r.LabIOCIntegration\Medi8r.LabIOCIntegration.csproj" />
+      <ProjectReference Include="..\Medi8r\Medi8r.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="LabIOC" Version="1.0.0" />
+    </ItemGroup>
+
+</Project>
