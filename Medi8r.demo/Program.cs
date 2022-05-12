@@ -10,3 +10,7 @@ var iocContainer = LabContainerFactory.Create()
 var mediator = iocContainer.GetMediator();
 
 await mediator.Publish(new DemoNotification());
+var response = await mediator.Send<DemoRequest, DemoResponse>(new DemoRequest());
+Console.WriteLine(response);
+
+await mediator.Send(new DemoVoidRequest());
