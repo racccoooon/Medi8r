@@ -2,10 +2,7 @@
 
 public interface IMediator
 {
-    Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken = default)
-        where TNotification : INotification;
-    Task<TResponse> Send<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken = default) 
-        where TRequest : IRequest<TResponse>;
-    Task Send<TRequest>(TRequest request, CancellationToken cancellationToken = default) 
-        where TRequest : IRequest<Void>;
+    Task Publish(INotification notification, CancellationToken cancellationToken = default);
+    Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default);
+    Task Send(IRequest<Void> request, CancellationToken cancellationToken = default);
 }

@@ -15,6 +15,10 @@ public static class LabIocExtensions
             .Where(x => x.IsAssignableTo(typeof(IRequestHandler)))
             .ToList();
 
+        var notificationBehaviourTypes = Assembly.GetCallingAssembly().GetTypes()
+            .Where(x => x.IsAssignableTo(typeof(INotificationBehaviour)))
+            .ToList();
+
         foreach (var handlerType in notificationHandlerTypes)
         {
             containerFactory.Register(handlerType);
@@ -23,6 +27,11 @@ public static class LabIocExtensions
         foreach (var handlerType in requestHandlerTypes)
         {
             containerFactory.Register(handlerType);
+        }
+
+        foreach (var notificationBehaviourType in notificationBehaviourTypes)
+        {
+            containerFactory.Register(notificationBehaviourType);
         }
 
         return containerFactory;
@@ -41,8 +50,18 @@ public static class LabIocExtensions
             .Where(x => x.ImplementationType.IsAssignableTo(typeof(IRequestHandler)))
             .Select(x => x.ImplementationType)
             .ToList();
+
+        var notificationBehaviourTypes = container.GetMappings()
+            .Where(x => x.ImplementationType == x.InterfaceType)
+            .Where(x => x.ImplementationType.IsAssignableTo(typeof(INotificationBehaviour)))
+            .Select(x => x.ImplementationType)
+            .ToList();
         
-        var mediator = new Mediator(notificationHandlerTypes, requestHandlerTypes, type => container.Get(type));
+        var mediator = new Mediator(notificationHandlerTypes, 
+            requestHandlerTypes, 
+            notificationBehaviourTypes,
+            new List<Type>(),
+            type => container.Get(type));
         return mediator;
     }
 }
